@@ -26,3 +26,6 @@ Thumbs.db
 *.egg-info/
 dist/
 build/
+
+# Generated plots
+data/part*_plots/*.png

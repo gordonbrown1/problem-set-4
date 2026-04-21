@@ -15,7 +15,7 @@ def create_directories(directories):
         directories (list of str): A list of directory paths to create.
     """
     
-    
+    # Will create these ['data/part2_plots', 'data/part3_plots', 'data/part4_plots', 'data/part5_plots']
     for directory in directories:
         os.makedirs(directory, exist_ok=True)
 
@@ -38,3 +38,44 @@ def extract_transform():
     charge_counts_by_offense = arrest_events.groupby(['charge_degree', 'offense_category']).size().reset_index(name='count')
     
     return pred_universe, arrest_events, charge_counts, charge_counts_by_offense
+
+
+def create_felony_charge_dataframe(arrest_events):
+    """
+    Creates a dataframe indicating whether each arrest had at least one felony charge.
+    
+    Parameters:
+    arrest_events : pandas.DataFrame
+        The arrest events dataframe containing 'arrest_id' and 'charge_degree' columns
+        
+    Returns:
+    pandas.DataFrame
+        A dataframe with columns ['arrest_id', 'has_felony_charge'] where has_felony_charge
+        is a boolean indicating if the arrest included at least one felony charge.
+    """
+    # Group by arrest_id and check if any charge_degree is 'felony'
+    felony_charge = arrest_events.groupby('arrest_id').agg(
+    has_felony_charge=('charge_degree', lambda x: (x == 'felony').any())).reset_index()
+    
+    return felony_charge
+
+# 2. Merge `felony_charge` with `pre_universe` into a new dataframe
+def merge_felony_with_universe(pred_universe, felony_charge):
+    """
+    Merges the felony charge indicator with the prediction universe dataframe.
+    
+    Parameters:
+    pred_universe : pandas.DataFrame
+        The prediction universe dataframe
+    felony_charge : pandas.DataFrame
+        The felony charge indicator dataframe with 'arrest_id' and 'has_felony_charge' columns
+        
+    Returns:
+    pandas.DataFrame
+        The merged dataframe containing all original columns plus 'has_felony_charge'
+    """
+
+
+    merged_df = pred_universe.merge(felony_charge, on="arrest_id", how="left")
+
+    return merged_df

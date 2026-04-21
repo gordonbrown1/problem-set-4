@@ -150,12 +150,6 @@ def scatterplot(pred_universe):
                     y='prediction_nonfelony', 
                     hue='race', 
                     col='sex')
-    sp.axes[0][0].axline(xy1=(1, 1), 
-                         slope=1, 
-                         color='b', 
-                         dashes=(2, 2))
-    sp.axes[0][1].axline(xy1=(1, 1), 
-                         slope=1, 
-                         color='b', 
-                         dashes=(2, 2))
+    sp.axes[0][0].axline(xy1=(1, 1), slope=1, color='b', dashes=(2, 2))
+    sp.axes[0][1].axline(xy1=(1, 1), slope=1, color='b', dashes=(2, 2))
     plt.savefig('./data/part2_plots/scatterplot5.png', bbox_inches='tight')
