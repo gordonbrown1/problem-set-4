@@ -34,10 +34,6 @@ def plot_fta_bar(pred_universe):
     plt.savefig("./data/part3_plots/fta_barplot.png", bbox_inches="tight")
     plt.close()
 
-
-
-
-
 # 2. Hue the previous barplot by sex
 def plot_fta_bar_hued(pred_universe):
     '''
@@ -64,8 +60,6 @@ def plot_fta_bar_hued(pred_universe):
     # Save and close the figure
     plt.savefig('./data/part3_plots/fta_barplot_hued.png', bbox_inches='tight')
     plt.close()
-
-
 
 # 3. Plot a histogram of age_at_arrest
 def plot_age_histogram(pred_universe):
@@ -132,6 +126,7 @@ def plot_age_histogram_binned(pred_universe):
     plt.close()
 
 if __name__ == "__main__":
+    
     '''
     Simple test section for direct execution of this file.
     Loads data using the ETL function from part1 and generates all Part 3 plots.

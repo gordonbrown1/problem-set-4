@@ -37,15 +37,9 @@ def plot_predictions_scatter_hued_by_charge(merged_df):
     
     # Create lmplot without regression line
     g = sns.lmplot(
-        data=plot_df,
-        x='prediction_felony',
-        y='prediction_nonfelony',
-        hue='charge_type',
-        palette='Set1',
-        height=6,
-        aspect=1.2,
-        fit_reg=False,
-        scatter_kws={'alpha': 0.5, 's': 20})
+        data=plot_df,x='prediction_felony',
+        y='prediction_nonfelony',hue='charge_type',palette='Set1',height=6,
+        aspect=1.2, fit_reg=False,scatter_kws={'alpha': 0.5, 's': 20})
     
     # Add a positive 45-degree diagonal reference line (y = x)
     for ax in g.axes.flat:
@@ -133,9 +127,8 @@ def plot_calibration_scatter(merged_df):
     custom_lines = [
         Line2D([0], [0], color='red', linewidth=2, label='Logistic Trend (Observed)'),
         Line2D([0], [0], color='blue', linestyle='--', linewidth=1.5, 
-               label='Perfect Calibration (y = x)')
-    ]
-    g.ax.legend(handles=custom_lines, loc='upper left', fontsize=9)
+               label='Perfect Calibration (y = x)')]
+    g.ax.legend(handles=custom_lines, loc='upper left', bbox_to_anchor=(0.03, 0.92), fontsize=9)
     
     plt.tight_layout()
     plt.savefig('./data/part5_plots/calibration_scatter.png', 

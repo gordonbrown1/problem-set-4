@@ -12,11 +12,9 @@ import matplotlib.pyplot as plt
 # 1. The charge_no column in arrest events tells us the charge degree and offense category for each arrest charge. 
 # An arrest can have multiple charges. We want to know if an arrest had at least one felony charge.
 # Use groupby and apply with lambda to create a new dataframe called `felony_charge` that has columns: ['arrest_id', 'has_felony_charge']
-# 
+
 # Hint 1: One way to do this is that in the lambda function, check to see if a charge_degree is felony, sum these up, and then check if the sum is greater than zero. 
 # Hint 2: Another way to do thisis that in the lambda function, use the `any` function when checking to see if any of the charges in the arrest are a felony
-
-
 
 # 2. Merge `felony_charge` with `pre_universe` into a new dataframe
 
@@ -44,8 +42,6 @@ def plot_felony_prediction_by_charge_type(merged_df):
     plt.xlabel('Charge is Felony')
     plt.ylabel('Predicted Probability of Felony Rearrest')
     plt.grid(axis='y', linestyle='--', alpha=0.6)
-
-    
     plt.savefig('./data/part4_plots/felony_prediction_by_charge_type.png', bbox_inches='tight')
     plt.close()
 
@@ -69,7 +65,6 @@ def plot_nonfelony_prediction_by_charge_type(merged_df):
     plt.xlabel('Charge is Felony')
     plt.ylabel('Predicted Probability of Nonfelony Rearrest')
     plt.grid(axis='y', linestyle='--', alpha=0.6)
-    
     plt.savefig('./data/part4_plots/nonfelony_prediction_by_charge_type.png', bbox_inches='tight')
     plt.close()
     
@@ -78,18 +73,16 @@ def plot_nonfelony_prediction_by_charge_type(merged_df):
     print("What might explain the difference between the plots?")
     print("-" * 70)
     print("The model identifies individuals with at least a felony current charge history")
-    print("as a high risk of rearrest on any charge (misdemeanor/felony). Also, individual")
-    print("with no felony history have a high predicted probability for nonfelony charge")
+    print("as a high risk of rearrest for any charge (misdemeanor/felony). Also, individuals")
+    print("with no felony history have a high predicted probability for non-felony rearrest charges,")
     print("indicating that although a person might not have prior history of felony doesn't")
-    print("rule the fact that they could be rearrested for other nonfelonies")
+    print("rule the fact that they could be rearrested for other nonfelonies.")
     print("\nIndividuals with history of felony have relatively lower avg. probability of being charged with felony again,")
-    print("but high in nonfelony, this suggest the model is training on other predictors with different classes,")
+    print("but high in non-felony rearrest, this suggest the model is training on other predictors with different classes,")
     print("which is independent on prior charge degree\nlike: ")
     print("    sex: M and F")
     print("    race: A and B")
     print("    Or maybe individuals do not repeat felonies\n")
-
-
 
 # 3. Repeat the plot from 1, but hue by whether the person actually got rearrested for a felony crime
 # 
@@ -129,15 +122,8 @@ def plot_felony_prediction_hued_by_actual_rearrest(merged_df):
     
     # Create the plot with custom color palette
     g = sns.catplot(
-        data=plot_df,
-        x='charge_type',
-        y='prediction_felony',
-        hue='rearrest_status',
-        kind='bar',
-        palette='Set2',
-        height=5,
-        aspect=1.2,
-        legend=True)
+        data=plot_df,x='charge_type',y='prediction_felony',
+        hue='rearrest_status', kind='bar',palette='Set2',height=5,aspect=1.2,legend=True)
     
     # Customize the plot appearance
     g.ax.set_title('Felony Rearrest Prediction by Current Charge Type and Actual Outcome', 
@@ -148,7 +134,8 @@ def plot_felony_prediction_hued_by_actual_rearrest(merged_df):
     # Access legend through the figure-level object and modify it
     if g.legend is not None:
         g.legend.set_title('Actual Outcome')
-        g.legend.set_loc('upper left')
+        g.legend._loc = 2
+        g.legend.set_bbox_to_anchor((0.06, 0.80))
         g.legend.get_title().set_fontsize(10)
         for text in g.legend.get_texts():
             text.set_fontsize(9)

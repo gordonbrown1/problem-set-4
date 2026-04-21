@@ -56,7 +56,6 @@ def create_felony_charge_dataframe(arrest_events):
     # Group by arrest_id and check if any charge_degree is 'felony'
     felony_charge = arrest_events.groupby('arrest_id').agg(
     has_felony_charge=('charge_degree', lambda x: (x == 'felony').any())).reset_index()
-    
     return felony_charge
 
 # 2. Merge `felony_charge` with `pre_universe` into a new dataframe
@@ -74,8 +73,5 @@ def merge_felony_with_universe(pred_universe, felony_charge):
     pandas.DataFrame
         The merged dataframe containing all original columns plus 'has_felony_charge'
     """
-
-
     merged_df = pred_universe.merge(felony_charge, on="arrest_id", how="left")
-
     return merged_df
